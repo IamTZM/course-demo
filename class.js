@@ -236,7 +236,7 @@ function divideCourse() {
             }
         }
     }
-    //console.log(arr)
+    console.log(arr)
 }
 divideCourse()
 
@@ -262,23 +262,6 @@ printLine()
 
 let header = document.getElementById("header")
 let main = document.getElementById("main")
-//显示课程
-function showCourses() {
-    //将课程放在其所在的位置上
-    for (let i = 0; i < arr.length; i++) {
-        for (let j = 0; j < arr[i].length; j++) {
-            let aDiv = document.createElement("div")
-            aDiv.className = "courseDiv"
-            aDiv.style.height = (arr[i][j].sectionend - arr[i][j].sectionstart + 1) * 100 + "px"
-            aDiv.style.backgroundColor = "seagreen"
-            aDiv.style.top = (arr[i][j].sectionstart - 1) * 100 + "px"
-            aDiv.style.left = i * 150 + 50 + "px"
-            aDiv.innerHTML = arr[i][j].name + "<br>" + arr[i][j].teacher + "<br>" + arr[i][j].locale + "<br>" + arr[i][j].week
-            main.appendChild(aDiv)
-        }
-    }
-}
-showCourses()
 
 //显示节数
 function showSections() {
@@ -316,8 +299,31 @@ let isDivHigher = false
 //当前周
 let currentWeek = 1
 
+let listBox = document.getElementById("listBox")
 let numRow = document.getElementsByClassName("numRow")
 let numArr = document.getElementsByClassName("weekNum")
+//存放courseDiv的数组
+let courseDivArr = []
+//显示课程
+function showCourses() {
+    //将课程放在其所在的位置上
+    for (let i = 0; i < arr.length; i++) {
+        courseDivArr.push([])
+        for (let j = 0; j < arr[i].length; j++) {
+            let aDiv = document.createElement("div")
+            aDiv.className = "courseDiv"
+            aDiv.style.height = (arr[i][j].sectionend - arr[i][j].sectionstart + 1) * 100 + "px"
+            aDiv.style.backgroundColor = "seagreen"
+            aDiv.style.top = (arr[i][j].sectionstart - 1) * 100 + "px"
+            aDiv.style.left = i * 150 + 50 + "px"
+            aDiv.innerHTML = arr[i][j].name + "<br>" + arr[i][j].teacher + "<br>" + arr[i][j].locale + "<br>" + arr[i][j].week
+            main.appendChild(aDiv)
+            courseDivArr[i].push(aDiv)
+        }
+    }
+    highlightCourse(currentWeek)
+}
+showCourses()
 
 //设置num元素位置
 function numRowLocate() {
@@ -338,6 +344,28 @@ numArrLocate()
 //显示当前周
 function showCurrentWeek() {
     changeWeekDiv.innerHTML = isDivWider ? "更改当前周 | 第" + currentWeek + "周" : ""
+}
+
+//为当前周课程设置高亮
+function highlightCourse(aweek) {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr[i].length; j++) {
+            let newarr = arr[i][j].weekarr.split(" ")
+            if (newarr.length <= 1 && aweek != newarr[0]) {
+                courseDivArr[i][j].style.backgroundColor = "#ccc"
+                courseDivArr[i][j].style.color = "slategray"
+            } else if (aweek < newarr[0] || aweek > newarr[newarr.length - 1]) {
+                courseDivArr[i][j].style.backgroundColor = "#ccc"
+                courseDivArr[i][j].style.color = "slategray"
+            } else if (newarr[1] - newarr[0] == 2 && aweek%2 != newarr[1]%2) {
+                courseDivArr[i][j].style.backgroundColor = "#ccc"
+                courseDivArr[i][j].style.color = "slategray"
+            } else {
+                courseDivArr[i][j].style.backgroundColor = "seagreen"
+                courseDivArr[i][j].style.color = "white"
+            }
+        }
+    }
 }
 
 window.onload = function () {
@@ -383,6 +411,7 @@ window.onload = function () {
         isDivWider = !isDivWider
         if (isDivHigher) {
             weekList.style.height = 50 + "px"
+            listBox.style.zIndex = 20
             weekList.style.transition = "all 0.5s ease-in-out"
         }
     }
@@ -396,34 +425,22 @@ window.onload = function () {
     changeWeekDiv.onclick = function () {
         if(!isDivHigher){
             weekList.style.height = 225 + "px"
+            setTimeout(() => {
+                listBox.style.zIndex = 70
+            }, 300);
             weekList.style.transition = "all 0.5s ease-in-out"
         }else{
             weekList.style.height = 50 + "px"
+            listBox.style.zIndex = 20
             weekList.style.transition = "all 0.5s ease-in-out"
         }
         isDivHigher = !isDivHigher
     }
     for (let i = 0; i < 18; i++) {
         numArr[i].onclick = function () {
-            for (let j = 0; j < 18; j++) {
-                numArr[i].style.backgroundColor = "white"
-                numArr[i].style.color = "dodgerblue"
-                currentWeek = i + 1
-                if (j == i) {
-                    continue;
-                }
-                numArr[j].style.backgroundColor = "dodgerblue"
-                numArr[j].style.color = "white"
-                numArr[j].onmouseover = function () {
-                    numArr[j].style.backgroundColor = "white"
-                    numArr[j].style.color = "dodgerblue"
-                }
-                numArr[j].onmouseout = function () {
-                    numArr[j].style.backgroundColor = "dodgerblue"
-                    numArr[j].style.color = "white"
-                }
-            }
+            currentWeek = i + 1
             showCurrentWeek()
+            highlightCourse(currentWeek)
         }
     }
 }

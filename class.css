@@ -97,13 +97,20 @@
     display: block;
     left: 50px;
     top: 0;
+    background-color: ghostwhite;
     z-index: 40;
+}
+#listBox {
+    position: absolute;
+    width: 380px;
+    height: 225px;
+    z-index: 20px;
 }
 .numRow {
     position: absolute;
     width: 350px;
     height: 50px;
-    left: 45px;
+    left: 50px;
 }
 .weekNum {
     position: absolute;
