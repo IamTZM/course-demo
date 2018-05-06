@@ -231,7 +231,7 @@ function divideCourse() {
     for (let i = 0; i < 7; i++) {
         arr.push([])
         for (const j of course.data) {
-            if(j.day === i + 1){
+            if (j.day === i + 1) {
                 arr[i].push(j)
             }
         }
@@ -251,9 +251,9 @@ function printLine() {
     ctx.setLineDash([20, 10, 10, 10])
     for (let i = 0; i < 11; i++) {
         //起点
-        ctx.moveTo(0, 100*(i+1))
+        ctx.moveTo(0, 100 * (i + 1))
         //终点
-        ctx.lineTo(1050, 100*(i+1))
+        ctx.lineTo(1050, 100 * (i + 1))
         //连横线
         ctx.stroke()
     }
@@ -277,7 +277,7 @@ showSections()
 
 //显示星期
 function showWeeks() {
-    let weekArr = ["星期一","星期二","星期三","星期四","星期五","星期六","星期日"]
+    let weekArr = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]
     for (let i = 0; i < 7; i++) {
         let weekDiv = document.createElement("div")
         weekDiv.className = "weekDiv"
@@ -331,6 +331,7 @@ function numRowLocate() {
         numRow[i].style.top = 55 + 50 * i + "px"
     }
 }
+
 function numArrLocate() {
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 6; j++) {
@@ -357,7 +358,7 @@ function highlightCourse(aweek) {
             } else if (aweek < newarr[0] || aweek > newarr[newarr.length - 1]) {
                 courseDivArr[i][j].style.backgroundColor = "#ccc"
                 courseDivArr[i][j].style.color = "slategray"
-            } else if (newarr[1] - newarr[0] == 2 && aweek%2 != newarr[1]%2) {
+            } else if (newarr[1] - newarr[0] == 2 && aweek % 2 != newarr[1] % 2) {
                 courseDivArr[i][j].style.backgroundColor = "#ccc"
                 courseDivArr[i][j].style.color = "slategray"
             } else {
@@ -370,12 +371,12 @@ function highlightCourse(aweek) {
 
 window.onload = function () {
     innerplus.onmouseover = function () {
-        if (!isDivWider){
+        if (!isDivWider) {
             innerplus.style.cursor = "pointer"
             innerplus.style.transform = "rotate(90deg)"
             innerplus.style.boxShadow = "0 0 5px dodgerblue"
             innerplus.style.transition = "transform 0.3s ease-in-out"
-        }else{
+        } else {
             innerplus.style.backgroundColor = "rgb(57, 156, 255)"
         }
     }
@@ -384,19 +385,19 @@ window.onload = function () {
             innerplus.style.transform = "rotate(-90deg)"
             innerplus.style.boxShadow = "0 0 0 white"
             innerplus.style.transition = "transform 0.3s ease-in-out"
-        }else{
+        } else {
             innerplus.style.backgroundColor = "dodgerblue"
         }
     }
     innerplus.onclick = function () {
-        if(!isDivWider){
+        if (!isDivWider) {
             innerplus.style.transform = "rotate(45deg)"
             changeWeekDiv.style.width = 380 + "px"
             changeWeekDiv.style.transition = "all 0.4s ease-in-out"
             weekList.style.width = 380 + "px"
             weekList.style.transition = "all 0.4s ease-in-out"
-            changeWeekDiv.innerHTML = "更改当前周 | 第"　+ currentWeek + "周"
-        }else{
+            changeWeekDiv.innerHTML = "更改当前周 | 第"　 + currentWeek + "周"
+        } else {
             innerplus.style.transform = "rotate(-45deg)"
             weekList.style.width = 50 + "px"
             weekList.style.height = 50 + "px"
@@ -423,13 +424,13 @@ window.onload = function () {
         changeWeekDiv.style.backgroundColor = "dodgerblue"
     }
     changeWeekDiv.onclick = function () {
-        if(!isDivHigher){
+        if (!isDivHigher) {
             weekList.style.height = 225 + "px"
             setTimeout(() => {
                 listBox.style.zIndex = 70
             }, 300);
             weekList.style.transition = "all 0.5s ease-in-out"
-        }else{
+        } else {
             weekList.style.height = 50 + "px"
             listBox.style.zIndex = 20
             weekList.style.transition = "all 0.5s ease-in-out"
@@ -444,5 +445,3 @@ window.onload = function () {
         }
     }
 }
-
-
